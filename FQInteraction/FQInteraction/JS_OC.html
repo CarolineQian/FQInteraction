@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>JS和OC交互</title>
+    <meta charset='utf-8'>
+  </head>
+  <body>
+    <div id='preview-contents' class='note-content'>            
+      <h4 id="title">JS和OC交互</h4>
+      <hr>
+      <blockquote>
+        <button style="width:200px;height:50px;background:#F16140;color:white" onclick="onGetUser()">
+          获取用户信息
+        </button>
+        <p id="info"></p>
+      </blockquote>
+      <hr>
+      <blockquote>
+        <button style="width:200px;height:50px;background:#F16140;color:white" onclick="onShowView()">
+          跳转页面
+        </button>
+        <p id="page"></p>
+      </blockquote>
+      <hr>
+      <blockquote>
+        <p id="refresh">页面刷新</p>
+      </blockquote>
+    </div>
+
+    <script>
+      function onGetUser(){
+        if(typeof appJsContext.getUserInfo === 'function'){
+          var userInfo = appJsContext.getUserInfo();
+          if (userInfo) {
+            document.getElementById("info").innerHTML = eval(userInfo);
+          }else{
+            document.getElementById("info").innerHTML = "未获取到用户信息";
+          };
+        }else{
+          document.getElementById("info").innerHTML = "未检测到getUserInfo()方法";
+        }
+      }
+
+      function onShowView(){
+        if(typeof appJsContext.showView === 'function'){
+          var show = appJsContext.showView(
+            JSON.stringify(
+                {
+                  "page":"login", 
+                  "data":{
+                    "id":"100"
+                  }
+                }
+              ));
+          document.getElementById("page").innerHTML = show;
+        }else{
+          document.getElementById("page").innerHTML = "未检测到showView()方法";
+        }
+      }
+
+      function refreshPage (){
+        document.getElementById("refresh").innerHTML = "页面刷新成功";
+      }
+    </script>
+  </body>
+</html>
